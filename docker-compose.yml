@@ -29,7 +29,7 @@ services:
     environment:
       - POSTGRES_DB=dev_db
       - POSTGRES_USER=dev_user
-      - POSTGRES_PASS=Kian2546
+      - POSTGRES_PASSWORD=Kian2546
 
 
 volumes:
