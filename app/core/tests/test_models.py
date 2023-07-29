@@ -6,7 +6,7 @@ from core import models
 from decimal import Decimal
 
 
-class UserTests(TestCase):
+class ModelTests(TestCase):
     def test_create_user_with_email_successful(self):
         email = 'test@example.com'
         password = 'example123'
@@ -66,3 +66,14 @@ class UserTests(TestCase):
         )
 
         self.assertEqual(str(recipe), recipe.title)
+
+    def test_create_tag(self):
+        email = 'test@example.com'
+        password = 'example123'
+        user = get_user_model().objects.create_user(
+            email=email,
+            password=password,
+        )
+        tag = models.Tag.objects.create(name='tag1', user=user)
+
+        self.assertEqual(str(tag), tag.name)
