@@ -6,6 +6,15 @@ from core import models
 from decimal import Decimal
 
 
+def create_user():
+    email = 'test@example.com'
+    password = 'example123'
+    user = get_user_model().objects.create_user(
+        email=email,
+        password=password,
+    )
+    return user
+
 class ModelTests(TestCase):
     def test_create_user_with_email_successful(self):
         email = 'test@example.com'
@@ -51,12 +60,7 @@ class ModelTests(TestCase):
         self.assertTrue(user.is_staff)
 
     def test_create_recipe(self):
-        email = 'test@example.com'
-        password = 'example123'
-        user = get_user_model().objects.create_user(
-            email=email,
-            password=password,
-        )
+        user = create_user()
         recipe = models.Recipe.objects.create(
             user=user,
             title='Sample recipe',
@@ -68,12 +72,16 @@ class ModelTests(TestCase):
         self.assertEqual(str(recipe), recipe.title)
 
     def test_create_tag(self):
-        email = 'test@example.com'
-        password = 'example123'
-        user = get_user_model().objects.create_user(
-            email=email,
-            password=password,
-        )
+        user = create_user()
         tag = models.Tag.objects.create(name='tag1', user=user)
 
         self.assertEqual(str(tag), tag.name)
+
+    def test_create_ingredient(self):
+        user = create_user()
+        ingredient = models.Ingredient.objects.create(
+         user=user,
+         name='ingredient1'
+        )
+
+        self.assertEqual(str(ingredient), ingredient.name)
