@@ -5,6 +5,8 @@ from core import models
 
 from decimal import Decimal
 
+from unittest.mock import patch
+
 
 def create_user():
     email = 'test@example.com'
@@ -14,6 +16,7 @@ def create_user():
         password=password,
     )
     return user
+
 
 class ModelTests(TestCase):
     def test_create_user_with_email_successful(self):
@@ -85,3 +88,11 @@ class ModelTests(TestCase):
         )
 
         self.assertEqual(str(ingredient), ingredient.name)
+
+    @patch('core.models.uuid.uuid4')
+    def test_recipe_file_name_uuid(self, mock_uuid):
+        uuid = 'test-uuid'
+        mock_uuid.return_value = uuid
+        file_path = models.recipe_image_file_path(None, 'example.jpg')
+
+        self.assertEqual(file_path, f'uploads/recipe/{uuid}.jpg')
